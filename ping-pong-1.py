@@ -28,15 +28,23 @@ class Player(GameSprite):
         keys_pressed = key.get_pressed()
         
         
-        if keys_pressed[K_W] and self.rect.y > 5:
+        if keys_pressed[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys_pressed[K_S] and self.rect.x < 495:
+        if keys_pressed[K_s] and self.rect.x < 495:
             self.rect.y += self.speed
-    
+racket1 = Player('racket.png', 20, 200,30,100 , 15)   
+racket2 = Player('racket.png', 650, 200,30,100 , 15)   
 game = True
 FPS = 60
+ball = GameSprite('tenis_ball.png', 300, 200, 50, 50, 20)
 while game:
     window.blit(background, (0,0))
+    racket1.reset()
+    racket2.reset()
+    ball.reset()
+    racket1.update_l()
+    racket2.update_r()
+    
     for e in event.get():
             if e.type == QUIT:
                 game = False
