@@ -1,4 +1,5 @@
 from pygame import *
+import sys
 window = display.set_mode((900, 500))
 display.set_caption('ping-pong')
 background = transform.scale(image.load('Fon.jpg'), (900, 500))
@@ -41,7 +42,9 @@ speed1 = 3
 speed2 = 3
 finish = False
 font.init()
-font1 = font.SysFont(None, 50)
+font1 = font.SysFont('arial', 50)
+point1 = 0
+point2 = 0
 lose1 = font1.render( "PLAYER 1 LOSE", True, (180, 0, 0))
 lose2 = font1.render( "PLAYER 2 LOSE", True, (0, 0, 180))
 ping = font1.render("PIngPong", True, (180, 180, 180))
@@ -61,19 +64,36 @@ while game:
         racket2.update_r()
         ball.rect.x+=speed1
         ball.rect.y+= speed2
+        
         if finish == False:
-            window.blit(ping, (354, 20))
+            window.blit(ping, (354, 10))
         if ball.rect.y >= 330 or ball.rect.y < 120:
             speed2 *= -1
+        if ball.rect.x >= 880 or ball.rect.x < 0:
+            speed1 *= -1
         if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
             speed1 *= -1
+        point1 = int(point1)
+        point2 = int(point2) 
         if ball.rect.x < 0:
-            finish = True
+            point1 +=1
+
+        if ball.rect.x > 880:
+            point2+= 1
+           
+        if point1 >= 10:
+            
             window.blit(lose1, (300, 55))
-          
-        if ball.rect.x > 862:
-            finish = True
+            finish == True
+        elif point2>= 10:
+            
             window.blit(lose2, (300, 55))
-      
+            finish == True
+        point1 = str(point1)
+        point2 = str(point2)
+        right = font1.render(point1, True, (0, 0, 0))
+        left= font1.render(point2, True, (0, 0, 0))
+        window.blit(right, (20,20))
+        window.blit(left, (850,20))
     clock.tick(FPS)
     display.update()
